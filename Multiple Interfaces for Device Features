@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+interface Camera {
+    void takePhoto();
+}
+
+interface MusicPlayer {
+    void playMusic();
+}
+
+class Smartphone implements Camera, MusicPlayer {
+    @Override
+    public void takePhoto() {
+        System.out.println("Taking a photo...");
+    }
+
+    @Override
+    public void playMusic() {
+        System.out.println("Playing music...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Smartphone phone = new Smartphone();
+        try {
+            System.out.print("Press 1 to take photo, 2 to play music: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            if (choice == 1) phone.takePhoto();
+            else if (choice == 2) phone.playMusic();
+            else System.out.println("Invalid choice");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
