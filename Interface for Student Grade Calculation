@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+interface Grading {
+    void calculateGrade();
+}
+
+class Student implements Grading {
+    private double[] marks = new double[5];
+
+    public void inputMarks(Scanner scanner) {
+        try {
+            for (int i = 0; i < 5; i++) {
+                System.out.print("Enter marks for subject " + (i + 1) + ": ");
+                marks[i] = Double.parseDouble(scanner.nextLine());
+                if (marks[i] < 0 || marks[i] > 100) throw new IllegalArgumentException("Marks must be between 0 and 100");
+            }
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Invalid input: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void calculateGrade() {
+        double total = 0;
+        for (double mark : marks) {
+            total += mark;
+        }
+        double average = total / 5;
+        String grade = (average >= 90) ? "A" : (average >= 80) ? "B" : (average >= 70) ? "C" : (average >= 60) ? "D" : "F";
+        System.out.println("Average: " + average + ", Grade: " + grade);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Student student = new Student();
+        try {
+            student.inputMarks(scanner);
+            student.calculateGrade();
+        } catch (NumberFormatException e) {
+            System.out.println("Input error: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Validation error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
