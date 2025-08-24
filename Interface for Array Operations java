@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+interface ArrayOperations {
+    void insert(int index, int value);
+    int search(int value);
+    void display();
+}
+
+class ArrayManager implements ArrayOperations {
+    private int[] array = new int[10];
+    private int size = 0;
+
+    @Override
+    public void insert(int index, int value) {
+        if (index < 0 || index > size) throw new ArrayIndexOutOfBoundsException("Invalid index");
+        if (size >= array.length) throw new IllegalStateException("Array is full");
+        for (int i = size; i > index; i--) array[i] = array[i - 1];
+        array[index] = value;
+        size++;
+    }
+
+    @Override
+    public int search(int value) {
+        for (int i = 0; i < size; i++) {
+            if (array[i] == value) return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public void display() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayManager manager = new ArrayManager();
+        try {
+            manager.insert(0, 10);
+            manager.insert(1, 20);
+            manager.display();
+            System.out.println("Search for 20: " + manager.search(20));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Index error: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.out.println("Array error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
